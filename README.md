@@ -17,15 +17,15 @@ However, each page aims to be self-contained and cover its topic without relying
 If you are unfamiliar with HPC systems, it's worth covering the basics of connecting to and using as supercomputer before moving on to programming tools.
 We suggest you go through this tutorial as follows:
 
-0. [Prerequisites](profiling/0_Prerequisites.md) – _Please read this first!_
-1. [Connecting to Server](profiling/1_Connecting_to_Server.md)
-2. [Software Modules](profiling/2_Modules.md)
-3. [Queueing Systems](profiling/3_Queueing_Systems.md)
-4. [HPC Compilers](profiling/4_Compilers.md)
-5. [Performance Analysis Tools](profiling/5_Performance_Analysis_Tools.md)
-6. [OpenMP](profiling/7_OpenMP.md)
-7. [MPI](profiling/6_MPI.md)
-8. [OpenCL<sup>†</sup>](profiling/8_OpenCL.md)
+0. [Prerequisites](0_Prerequisites.md) – _Please read this first!_
+1. [Connecting to Server](1_Connecting_to_Server.md)
+2. [Software Modules](2_Modules.md)
+3. [Queueing Systems](3_Queueing_Systems.md)
+4. [HPC Compilers](4_Compilers.md)
+5. [Performance Analysis Tools](5_Performance_Analysis_Tools.md)
+6. [OpenMP](7_OpenMP.md)
+7. [MPI](6_MPI.md)
+8. [OpenCL<sup>†</sup>](8_OpenCL.md)
 
 <!-- TODO: If we switch to BCp4, add SLURM instructions and update modules names -->
 
@@ -36,7 +36,7 @@ Items marked with † cover advanced topics and may exceed the scope of the Intr
 
 ### FAQs
 
-In addition to the reference pages, we are collecting answers to common questions in [a dedicated FAQ page](profiling/FAQ.md).
+In addition to the reference pages, we are collecting answers to common questions in [a dedicated FAQ page](FAQ.md).
 If you encounter a problem, please check this page before asking a question to see if an answer isn't already available.
 
 ## Additional Material
