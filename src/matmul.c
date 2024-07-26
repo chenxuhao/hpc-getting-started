@@ -1,52 +1,39 @@
-#include <ctimer.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#define SIZE 1024
-
+#include "matmul.h"
 //#define USE_PAPI
 #ifdef USE_PAPI
 #include <papi.h>
 #endif
 
-void matrixMultiply(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE]) {
-  // Initialize the result matrix with zeros
-  for (int i = 0; i < SIZE; i++) {
-    for (int j = 0; j < SIZE; j++) {
-      result[i][j] = 0;
-    }
-  }
+void print_matrix(int n, DType *A);
 
-  // Perform matrix multiplication
-  for (int i = 0; i < SIZE; i++) {
-    for (int j = 0; j < SIZE; j++) {
-      for (int k = 0; k < SIZE; k++) {
-        result[i][j] += A[i][k] * B[k][j];
-      }
-    }
-  }
-}
-
-int main() {
-  //int ver = PAPI_library_init(PAPI_VER_CURRENT);
-  //printf("PAPI version is %d.%d\n", PAPI_VERSION_MAJOR(ver), PAPI_VERSION_MINOR(ver));
-
-  int (*A)[SIZE] = malloc(sizeof(int) * SIZE * SIZE);
-  int (*B)[SIZE] = malloc(sizeof(int) * SIZE * SIZE);
-  int (*result)[SIZE] = malloc(sizeof(int) * SIZE * SIZE);
+int main(int argc, char* argv[]) {
+  int N = 1024;
+  if (argc > 1) N = atoi(argv[1]);
+  DType *A = malloc(sizeof(DType) * N * N);
+  DType *B = malloc(sizeof(DType) * N * N);
+  DType *C = malloc(sizeof(DType) * N * N);
 
   // Initialize matrices A and B with example values
-  for (int i = 0; i < SIZE; i++) {
-    for (int j = 0; j < SIZE; j++) {
-      A[i][j] = i + j;
-      B[i][j] = i - j;
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      A[i*N+j] = i + j;
+      B[i*N+j] = i - j;
     }
   }
+
+  // Initialize the result matrix with zeros
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      C[i*N+j] = 0;
+    }
+  }
+
 #ifdef USE_PAPI
   if (PAPI_library_init(PAPI_VER_CURRENT) != PAPI_VER_CURRENT) {
     fprintf(stderr, "PAPI library initialization error!\n");
     return 1;
   }
+  //printf("PAPI version is %d.%d\n", PAPI_VERSION_MAJOR(ver), PAPI_VERSION_MINOR(ver));
 
   // PAPI variables
   int EventSet = PAPI_NULL;
@@ -82,7 +69,7 @@ int main() {
   ctimer_start(&t);
 
   // Perform matrix multiplication
-  matrixMultiply(A, B, result);
+  matmul(N, A, B, C);
 
   ctimer_stop(&t);
   ctimer_measure(&t);
@@ -99,18 +86,54 @@ int main() {
   printf("L1 data Cache Accesses: %lld\n", values[1]);
   printf("L1 Data Cache Miss Rate: %.2f%%\n", (double)values[0] / values[1] * 100.0);
 #endif
-  // Optionally, print the result matrix
-  // for (int i = 0; i < SIZE; i++) {
-  //     for (int j = 0; j < SIZE; j++) {
-  //         printf("%d ", result[i][j]);
-  //     }
-  //     printf("\n");
-  // }
+
+  check(N, A, B, C);
+  //print_matrix(N, C);
 
   free(A);
   free(B);
-  free(result);
+  free(C);
 
   return 0;
+}
+
+void print_matrix(int n, int *A) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      printf("%d ", A[i*n+j]);
+    }
+    printf("\n");
+  }
+}
+
+void check(int n, DType *A, DType *B, DType *C_to_check) {
+  DType *C = malloc(sizeof(DType) * n * n);
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      C[i*n+j] = 0;
+    }
+  }
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      for (int k = 0; k < n; k++) {
+        C[i*n+j] += A[i*n+k] * B[k*n+j];
+      }
+    }
+  }
+
+  bool correct = true;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      if (C_to_check[i*n+j] != C[i*n+j]) {
+        correct = false;
+        printf("C[%d][%d]=%d incorrect, should be %d\n", i, j, C_to_check[i*n+j], C[i*n+j]);
+        break;
+      }
+    }
+  }
+
+  if (correct) printf("correct\n");
+  else printf("wrong");
 }
 

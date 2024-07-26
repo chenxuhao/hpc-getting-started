@@ -33,5 +33,13 @@ INCLUDES += -I$(PAPI_HOME)/include
 LIBS += -L$(PAPI_HOME)/lib -lpapi
 endif
 
-all:
-	$(CC) $(CFLAGS) matmul.c $(INCLUDES) $(LIBS) -o matmul
+all: matmul_base matmul_tiled
+
+matmul_base:
+	$(CC) $(CFLAGS) matmul.c base.c $(INCLUDES) $(LIBS) -o matmul_base
+
+matmul_tiled:
+	$(CC) $(CFLAGS) matmul.c tiled.c $(INCLUDES) $(LIBS) -o matmul_tiled
+
+clean:
+	rm matmul_base matmul_tiled
