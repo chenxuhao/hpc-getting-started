@@ -1,9 +1,13 @@
 #include <ctimer.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <papi.h>
 
 #define SIZE 1024
+
+//#define USE_PAPI
+#ifdef USE_PAPI
+#include <papi.h>
+#endif
 
 void matrixMultiply(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE]) {
   // Initialize the result matrix with zeros
@@ -38,7 +42,7 @@ int main() {
       B[i][j] = i - j;
     }
   }
-
+#ifdef USE_PAPI
   if (PAPI_library_init(PAPI_VER_CURRENT) != PAPI_VER_CURRENT) {
     fprintf(stderr, "PAPI library initialization error!\n");
     return 1;
@@ -72,7 +76,7 @@ int main() {
     fprintf(stderr, "PAPI start error: %s\n", PAPI_strerror(retval));
     exit(1);
   }
-
+#endif
   printf("start kernel\n");
   ctimer_t t;
   ctimer_start(&t);
@@ -83,7 +87,7 @@ int main() {
   ctimer_stop(&t);
   ctimer_measure(&t);
   ctimer_print(t, "matmul");
-
+#ifdef USE_PAPI
   // Stop counting events
   if ((retval = PAPI_stop(EventSet, values)) != PAPI_OK) {
     fprintf(stderr, "PAPI stop error: %s\n", PAPI_strerror(retval));
@@ -94,7 +98,7 @@ int main() {
   printf("L1 data Cache Hits: %lld\n", values[0]);
   printf("L1 data Cache Accesses: %lld\n", values[1]);
   printf("L1 Data Cache Miss Rate: %.2f%%\n", (double)values[0] / values[1] * 100.0);
-
+#endif
   // Optionally, print the result matrix
   // for (int i = 0; i < SIZE; i++) {
   //     for (int j = 0; j < SIZE; j++) {
