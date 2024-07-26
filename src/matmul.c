@@ -82,8 +82,8 @@ int main(int argc, char* argv[]) {
   }
 
   // Calculate and print L1 data cache miss rate
-  printf("L1 data Cache Hits: %lld\n", values[0]);
-  printf("L1 data Cache Accesses: %lld\n", values[1]);
+  printf("L1 Data Cache Misses: %lld\n", values[0]);
+  printf("L1 Data Cache Accesses: %lld\n", values[1]);
   printf("L1 Data Cache Miss Rate: %.2f%%\n", (double)values[0] / values[1] * 100.0);
 #endif
 
