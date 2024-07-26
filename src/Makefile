@@ -24,8 +24,6 @@ else
     NVFLAGS += -O3 -w
 endif
 
-PAPI_HOME := /opt/cray/pe/papi/7.0.1.2
-
 ifeq ($(PAPI), 1)
 CFLAGS += -DUSE_PAPI
 CXXFLAGS += -DUSE_PAPI
