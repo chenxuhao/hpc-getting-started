@@ -12,7 +12,11 @@ CLANG := $(CILK_HOME)/bin/clang
 CLANGXX := $(CILK_HOME)/bin/clang++
 
 INCLUDES := -I./
-LIBS := 
+LIBS := -lgomp
+
+CFLAGS    := -Wall -fopenmp
+CXXFLAGS  := -Wall -fopenmp -std=c++17
+ICPCFLAGS := -Wall -qopenmp
 
 ifeq ($(DEBUG), 1)
     CFLAGS += -g -O0 
@@ -23,6 +27,8 @@ else
     CXXFLAGS += -O3 
     NVFLAGS += -O3 -w
 endif
+
+CFLAGS += –ffast-math -march=native
 
 ifeq ($(PAPI), 1)
 CFLAGS += -DUSE_PAPI

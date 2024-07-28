@@ -7,7 +7,7 @@
 void print_matrix(int n, DType *A);
 
 int main(int argc, char* argv[]) {
-  int N = 1024;
+  int N = 2048;
   if (argc > 1) N = atoi(argv[1]);
   DType *A = malloc(sizeof(DType) * N * N);
   DType *B = malloc(sizeof(DType) * N * N);
@@ -16,8 +16,8 @@ int main(int argc, char* argv[]) {
   // Initialize matrices A and B with example values
   for (int i = 0; i < N; i++) {
     for (int j = 0; j < N; j++) {
-      A[i*N+j] = i + j;
-      B[i*N+j] = i - j;
+      A[i*N+j] = (i + j) % 10;
+      B[i*N+j] = rand() % 10;
     }
   }
 
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
   printf("L1 Data Cache Miss Rate: %.2f%%\n", (double)values[0] / values[1] * 100.0);
 #endif
 
-  check(N, A, B, C);
+  //check(N, A, B, C);
   //print_matrix(N, C);
 
   free(A);
@@ -107,16 +107,25 @@ void print_matrix(int n, int *A) {
 }
 
 void check(int n, DType *A, DType *B, DType *C_to_check) {
+  int num_threads = 1;
+  #pragma omp parallel
+  {
+    num_threads = omp_get_num_threads();
+  }
+  printf("omp_num_threads = %d\n", num_threads);
+ 
   DType *C = malloc(sizeof(DType) * n * n);
+  #pragma omp parallel for
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       C[i*n+j] = 0;
     }
   }
 
+  #pragma omp parallel for
   for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      for (int k = 0; k < n; k++) {
+    for (int k = 0; k < n; k++) {
+      for (int j = 0; j < n; j++) {
         C[i*n+j] += A[i*n+k] * B[k*n+j];
       }
     }
