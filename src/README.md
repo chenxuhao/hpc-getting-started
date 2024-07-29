@@ -15,8 +15,8 @@ $ make PAPI=1
 $ ./matmul 
 start kernel
 Time(matmul) = 5.587797456 sec
-L1 data Cache Hits: 1245134553
-L1 data Cache Accesses: 3248585561
+L1 Data Cache Misss: 1245134553
+L1 Data Cache Accesses: 3248585561
 L1 Data Cache Miss Rate: 38.33%
 ```
 
