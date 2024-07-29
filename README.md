@@ -1,10 +1,12 @@
-Getting Started with the HPC Course
+Getting Started with HPC
 ===================================
 
+This repository is modified from the [UoB-HPC course](https://github.com/UoB-HPC/hpc-course-getting-started). 
 
 This is a collection of documents aiming to introduce the environment and typical workflows in HPC systems.
-The tutorial is useful for any typical High Performance Computing (HPC) course.
-Note, however, that we likely cover more material than is directly relevant for the assignments—just because a technique or issue is mentioned in this tutorial, it does _not_ mean that you necessarily need to tackle it in your submitted code or report.
+The tutorial is useful for any typical [High Performance Computing](https://sites.google.com/lbl.gov/cs267-spr2024) (HPC) or [Software Performance Engineering](https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/) (SPE) course. We will also use it for our online learning platform [Speedcode.org](https://www.speedcode.org).
+
+<!--Note, however, that we likely cover more material than is directly relevant for the assignments—just because a technique or issue is mentioned in this tutorial, it does _not_ mean that you necessarily need to tackle it in your submitted code or report.-->
 
 ## Structure
 
@@ -46,7 +48,8 @@ In the past, we have used various content that you may find useful throughout th
 <!-- - [Using BlueCrystal labsheet on BlackBoard](https://www.ole.bris.ac.uk/bbcswebdav/pid-3307009-dt-content-rid-9643695_2/courses/COMS30005_2018/Open%20Access%20for%20CS/labs/intro-handout.pdf) -->
 - [OpenMP and MPI Examples on GitHub](https://github.com/UoB-HPC/hpc-course-examples)
 - [OpenMP Tutorial Videos by Tim Mattson @ Intel](https://www.youtube.com/watch?v=nE-xN4Bf8XI&list=PLLX-Q6B8xqZ8n8bwjGdzBJ25X2utwnoEG)
-- [GPU Programming Examples on GitHub](https://github.com/UoB-HPC/advanced-hpc-examples) (likely relevant for Advanced HPC only)
+- [GPU Programming Course](https://chenxuhao.github.io/gpu-programming/)
+- [GPU Programming Examples on GitHub](https://github.com/UoB-HPC/advanced-hpc-examples) 
 
 In addition, there are many books and links to online resources [on the unit's BlackBoard page](https://www.ole.bris.ac.uk/webapps/blackboard/content/listContentEditable.jsp?content_id=_4566993_1&course_id=_240828_1&mode=reset).
 
